@@ -6,7 +6,7 @@ def reload!
 end
 
 task :console do
-	puts "Welcome to the console!"
+	puts "Love it, test it <3"
 	reload!
 	Pry.start
 end
