@@ -16,15 +16,15 @@ describe ServiceScraper do
 		it 'creates a hash with line names and the service status for each line' do
 			result = ServiceScraper.parse_info(test_url)
 
-			expect(result).to include('1 2 3': a_kind_of(String))
+			expect(result).to include(:'1 2 3' => a_kind_of(String))
 		end
 	end
 
-	describe '#service_changes' do
+	describe '#get_service_changes' do
 		it 'creates a hash with lines that have service changes and links for further info' do
-			result = ServiceScraper.service_changes(test_url)
+			result = ServiceScraper.get_service_changes(test_url)
 
-			expect(result).to include(a_kind_of(Symbol) => a_kind_of(String))
+			expect(result).to include(:'4 5 6' => 'http://assistive.usablenet.com/tt/www.mta.info/status/subway/456/24805646')
 		end
 	end
 
