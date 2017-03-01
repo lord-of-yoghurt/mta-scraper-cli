@@ -13,17 +13,19 @@ class ServiceScraper
 
 	def self.parse_info(url=URL)
 		lines = self.get_subway_data(url)
-		info = Hash.new
+		collection = []
 
 		lines.each do |line|
-			line_name = line.text.gsub(/ Subway.+/, '').strip
-			status = line.css('strong').text
-			next if line_name.include?('Staten') # add this back later?
-
-			info[line_name.to_sym] = status
+			line_hash = Hash.new
+			line_hash[:name] = line.text.gsub(/ Subway.+/, '').strip
+			line_hash[:status] = line.css('strong').text
+			if !line.css('strong a').empty?
+				line_hash[:info_link] = line.css('strong a').attribute('href').value
+			end
+			collection << line_hash
 		end
 
-		info
+		collection
 	end
 
 	def self.get_service_changes(url=URL)
@@ -45,6 +47,10 @@ class ServiceScraper
 	end
 
 end
+
+# [
+# 	{name: '1 2 3', status: 'Planned Work', info_link: 'http://assistive.usablenet.com/tt/...'}
+# ]
 
 # ServiceScraper.parse_info => {'1 2 3': 'Good Service', '4 5 6': 'Planned Work'}
 # ServiceScraper.get_service_changes => {'1 2 3': '/tt/www.mta.info/status/subway/123/24805471'}
