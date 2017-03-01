@@ -48,6 +48,7 @@ end
 
 # ServiceScraper.parse_info => {'1 2 3': 'Good Service', '4 5 6': 'Planned Work'}
 # ServiceScraper.get_service_changes => {'1 2 3': '/tt/www.mta.info/status/subway/123/24805471'}
+# ServiceScraper.get_details => hmmm
 
 # data = Nokogiri::HTML(open('http://assistive.usablenet.com/tt/www.mta.info/?un_jtt_v_status=subwayTab'))
 # lines = data.css('ul')[1].css('li')
