@@ -23,4 +23,8 @@ class SubwayLine
 		end
 	end
 
+	def self.find_by_name(name)
+		self.all.detect { |obj| obj.name == name }
+	end
+
 end
