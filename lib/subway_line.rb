@@ -4,9 +4,10 @@ class SubwayLine
 
 	@@all = []
 
-	def initialize(name, status)
-		@name = name
-		@status = status
+	def initialize(line_hash)
+		line_hash.each do |k, v|
+			self.send("#{k}=", v)
+		end
 		self.class.all << self
 	end
 
@@ -14,27 +15,11 @@ class SubwayLine
 		@@all
 	end
 
-	def self.build_lines_from_hash
-		info = ServiceScraper.parse_info
+	def self.build_lines_from_collection
+		lines = ServiceScraper.parse_info('./fixtures/example_page.htm')
 
-		info.each do |k, v|
-			self.new(k.to_s, v)
-		end
-	end
-
-	def self.add_links	
-		details = ServiceScraper.get_service_changes
-
-		if !details.empty?
-			details.each do |k, v|
-				self.all.each do |obj|
-					if obj.name == k.to_s
-						obj.info_link = v
-					end
-				end
-			end
-		else
-			puts "\nGood service on all lines!"
+		lines.each do |line_hash|
+			self.new(line_hash)
 		end
 	end
 
