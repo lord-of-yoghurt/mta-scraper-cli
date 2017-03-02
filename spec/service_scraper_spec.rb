@@ -23,6 +23,7 @@ describe ServiceScraper do
 			result = ServiceScraper.parse_info(test_url)
 
 			expect(result).to include({name: '4 5 6', status: 'Planned Work', info_link: 'http://assistive.usablenet.com/tt/www.mta.info/status/subway/456/24805646'})
+			expect(result.first).not_to include(:info_link)
 		end
 	end
 
