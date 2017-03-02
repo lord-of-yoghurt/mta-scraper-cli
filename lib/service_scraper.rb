@@ -20,30 +20,16 @@ class ServiceScraper
 			line_hash[:name] = line.text.gsub(/ Subway.+/, '').strip
 			line_hash[:status] = line.css('strong').text
 			if !line.css('strong a').empty?
-				line_hash[:info_link] = line.css('strong a').attribute('href').value
+				line_hash[:info_link] = 'http://assistive.usablenet.com' + 
+					line.css('strong a').attribute('href').value
+			elsif line.text.include?('Staten')
+				line_hash[:name] = 'SIR'
 			end
+
 			collection << line_hash
 		end
 
 		collection
-	end
-
-	def self.get_service_changes(url=URL)
-		lines = self.get_subway_data(url)
-		changes_hash = Hash.new
-
-		changes = lines.select do |line|
-			!line.text.include?('Good Service')
-		end
-
-		changes.each do |item|
-			line_name = item.text.gsub(/ Subway.+/, '').strip
-			info_link = item.css('strong a').attribute('href').value
-			next if line_name.include?('Staten') # add this back later?
-
-			changes_hash[line_name.to_sym] = 'http://assistive.usablenet.com' + info_link
-		end
-		changes_hash
 	end
 
 end
@@ -51,10 +37,6 @@ end
 # [
 # 	{name: '1 2 3', status: 'Planned Work', info_link: 'http://assistive.usablenet.com/tt/...'}
 # ]
-
-# ServiceScraper.parse_info => {'1 2 3': 'Good Service', '4 5 6': 'Planned Work'}
-# ServiceScraper.get_service_changes => {'1 2 3': '/tt/www.mta.info/status/subway/123/24805471'}
-# ServiceScraper.get_details => hmmm
 
 # data = Nokogiri::HTML(open('http://assistive.usablenet.com/tt/www.mta.info/?un_jtt_v_status=subwayTab'))
 # lines = data.css('ul')[1].css('li')
