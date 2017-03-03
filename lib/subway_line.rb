@@ -16,7 +16,7 @@ class SubwayLine
 	end
 
 	def self.build_lines_from_collection
-		lines = ServiceScraper.parse_info('./fixtures/example_page.htm')
+		lines = ServiceScraper.parse_info
 
 		lines.each do |line_hash|
 			self.new(line_hash)
@@ -25,6 +25,11 @@ class SubwayLine
 
 	def self.find_by_name(name)
 		self.all.detect { |obj| obj.name == name }
+	end
+
+	def self.update_details(line_name)
+		line = self.find_by_name(line_name)
+		line.details = ServiceScraper.get_details(line.info_link)
 	end
 
 end
