@@ -33,7 +33,7 @@ class ServiceScraper
 	end
 
 	def self.get_details(info_link)
-		details = Nokogiri::HTML(open(info_link)).css('#status_display').text
+		Nokogiri::HTML(open(info_link)).css('#status_display').text
 	end
 
 end
