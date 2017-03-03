@@ -31,7 +31,7 @@ describe ServiceScraper do
 		it 'receives details on a service change from dedicated page' do
 			details = ServiceScraper.get_details('./fixtures/example_svc_chg.htm')
 
-			expect(details).to include('Planned Work')
+			expect(details).not_to be_nil
 		end
 	end
 
