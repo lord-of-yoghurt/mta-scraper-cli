@@ -19,10 +19,13 @@ class ServiceScraper
 			line_hash = Hash.new
 			line_hash[:name] = line.text.gsub(/ Subway.+/, '').strip
 			line_hash[:status] = line.css('strong').text
+			
 			if !line.css('strong a').empty?
 				line_hash[:info_link] = 'http://assistive.usablenet.com' + 
 					line.css('strong a').attribute('href').value
-			elsif line.text.include?('Staten')
+			end
+
+			if line.text.include?('Staten')
 				line_hash[:name] = 'SIR'
 			end
 
