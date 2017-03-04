@@ -13,7 +13,9 @@ the app will ask whether you want to see the exact details and gather them for y
 
 
 
+
 __________________
 Copyright (c) 2017 David Ordovskiy aka lord-of-yoghurt
+
 This application was written as a final project for Flatiron School's Community Bootcamp
 course on Object Orientation in Ruby.
