@@ -29,9 +29,7 @@ class SubwayLine
 
 	def self.update_details(line_name)
 		line = self.find_by_name(line_name)
-		if line
-			line.details = ServiceScraper.get_details(line.info_link)
-		end
+		line.details = ServiceScraper.get_details(line.info_link)
 	end
 
 end

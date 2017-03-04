@@ -1,6 +1,6 @@
 class UI
 
-	attr_accessor :input
+	attr_accessor :user_input
 
 	def run
 		# upon launch, show a formatted status of each subway line
@@ -9,6 +9,8 @@ class UI
 		#   or enter 'q' to quit
 
 		self.greeting
+		self.show_info
+		self.get_input
 	end
 
 	def show_info
@@ -36,7 +38,6 @@ class UI
 			end
 			sleep 0.1
 		end
-		return nil
 	end
 
 	def splash
@@ -53,28 +54,39 @@ class UI
 		puts "\nHello! It is #{time.strftime("%H:%M:%S")} on #{time.strftime("%Y-%m-%d")}"
 		puts "Here is the MTA service status report:"
 		puts
-
-		self.show_info
 	end
 
 	def changes?
-		SubwayLine::all.any? { |obj| obj.status != 'Good Service' }
+		SubwayLine.all.any? { |obj| obj.status != 'Good Service' }
 	end
 
 	def get_input
 		if changes?
 			puts "\nWould you like to see details on service changes?"
-			puts "Enter the exact name of the line to retrieve further info,"
+			puts "Enter the exact name of the line (e.g. 'A C E') to retrieve further info,"
 			print "or type 'q' to quit: "
-			self.input = gets.strip
-			exit if self.input == 'q'
+			self.user_input = gets.strip
+			exit if self.user_input == 'q'
+			self.show_details
 		else
-			puts "\nAwesome! No service changes, enjoy it while it lasts :)"
+			puts "\nLooks like everything is working smoothly - enjoy it while it lasts! :)"
 		end
 	end
 
+	def valid_input?
+		SubwayLine.all.any? { |obj| obj.name == self.user_input }
+	end
+
 	def show_details
-		# ...
+		if self.valid_input?
+			puts "----------------------------------"
+			puts SubwayLine.update_details(self.user_input)
+		else
+			puts "We couldn't find this subway line in the list."
+			print "Please enter a valid line name: "
+			self.user_input = gets.strip
+			show_details
+		end
 	end
 end
 
