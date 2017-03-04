@@ -1,13 +1,14 @@
 class UI
 
+	attr_accessor :input
+
 	def run
 		# upon launch, show a formatted status of each subway line
 		# if any of the lines has a status other than "good service",
 		#   prompt user to choose which line they want to see details for,
 		#   or enter 'q' to quit
 
-		# greeting
-		# 
+		self.greeting
 	end
 
 	def show_info
@@ -54,7 +55,26 @@ class UI
 		puts
 
 		self.show_info
+	end
 
+	def changes?
+		SubwayLine::all.any? { |obj| obj.status != 'Good Service' }
+	end
+
+	def get_input
+		if changes?
+			puts "\nWould you like to see details on service changes?"
+			puts "Enter the exact name of the line to retrieve further info,"
+			print "or type 'q' to quit: "
+			self.input = gets.strip
+			exit if self.input == 'q'
+		else
+			puts "\nAwesome! No service changes, enjoy it while it lasts :)"
+		end
+	end
+
+	def show_details
+		# ...
 	end
 end
 

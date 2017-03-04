@@ -2,4 +2,4 @@
 
 require_relative '../config/environment.rb'
 
-UI.new.greeting
+UI.new.run
