@@ -3,11 +3,6 @@ class UI
 	attr_accessor :user_input
 
 	def run
-		# upon launch, show a formatted status of each subway line
-		# if any of the lines has a status other than "good service",
-		#   prompt user to choose which line they want to see details for,
-		#   or enter 'q' to quit
-
 		self.greeting
 		self.show_info
 		self.get_input
@@ -81,11 +76,17 @@ class UI
 		if self.valid_input?
 			puts "----------------------------------"
 			puts SubwayLine.update_details(self.user_input)
+			puts "----------------------------------"
+			puts "Would you like to see details for another line?"
+			print "If so, enter the line name. Otherwise, enter 'q' to quit: "
+			self.user_input = gets.strip
+			exit if user_input == 'q'
+			self.show_details
 		else
 			puts "We couldn't find this subway line in the list."
 			print "Please enter a valid line name: "
 			self.user_input = gets.strip
-			show_details
+			self.show_details
 		end
 	end
 end
