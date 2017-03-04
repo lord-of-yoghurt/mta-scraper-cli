@@ -12,7 +12,13 @@ class UI
 
 	def show_info
 		SubwayLine.build_lines_from_collection
-		
+
+		30.times do
+			print "."
+			sleep 0.04
+		end
+		puts
+
 		SubwayLine::all.each do |obj|
 			case obj.name
 			when '1 2 3' then puts "#{obj.name.colorize( :red )} \t\t---\t\t#{obj.status}"
@@ -27,10 +33,29 @@ class UI
 			when 'S' then puts "#{obj.name.colorize ( :light_white )} \t\t---\t\t#{obj.status}"
 			else puts "#{obj.name} \t\t---\t\t#{obj.status}"
 			end
+			sleep 0.1
 		end
 		return nil
 	end
 
+	def splash
+		system('clear') || system('cls')
+		splash = File.open('./assets/splash.md')
+
+		splash.each_line { |line| puts line }
+	end
+
+	def greeting
+		time = Time.new
+
+		self.splash
+		puts "\nHello! It is #{time.strftime("%H:%M:%S")} on #{time.strftime("%Y-%m-%d")}"
+		puts "Here is the MTA service status report:"
+		puts
+
+		self.show_info
+
+	end
 end
 
 class String
